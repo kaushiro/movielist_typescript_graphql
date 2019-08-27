@@ -1,0 +1,12 @@
+FROM docker.io/node:12.8.0
+
+WORKDIR /app
+
+COPY . /app
+
+RUN npm install
+
+EXPOSE 5000
+
+CMD ["npm", "run", "watch"]
+

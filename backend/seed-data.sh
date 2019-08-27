@@ -1,0 +1,1 @@
+psql -U admin moviewatch < /var/lib/postgresql/dumps/dbexport.sql 
