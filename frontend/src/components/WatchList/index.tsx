@@ -1,6 +1,6 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { GET_WATCHLIST } from "../../models/movies/queries";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { GET_WATCHLIST, REMOVE_MOVIE } from "../../models/movies/queries";
 import WatchListItem from "./components/WatchListItem";
 import { useTransition } from "react-spring";
 import {
@@ -24,7 +24,7 @@ const WatchList: React.FC<IWatchListProps> = ({ isOpen, onWatchListClose }) => {
     leave: { transform: "translateX(100%)" }
   });
   const { loading, error, data } = useQuery(GET_WATCHLIST);
-  // const [handleMovieClick] = useMutation(REMOVE_MOVIE);
+  const [handleMovieClick] = useMutation(REMOVE_MOVIE);
   if(loading) {
     return <p>Loading...</p>
   }
@@ -46,7 +46,7 @@ const WatchList: React.FC<IWatchListProps> = ({ isOpen, onWatchListClose }) => {
                 <WatchListItem
                   key={movie.id}
                   movie={movie}
-                  // onClick={() => handleMovieClick({variables: { id: movie.id }})}
+                  onClick={() => handleMovieClick({variables: { id: movie.id }})}
                 />
               ))}
               </WatchListItems>

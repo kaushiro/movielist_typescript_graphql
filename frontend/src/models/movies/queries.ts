@@ -31,17 +31,20 @@ mutation watchlist($id: ID!) {
 }
 `;
 
-// export const REMOVE_MOVIE = gql `
-// mutation watchlist($id: ID!) {
-// 	deleteMovie(movieID:$id) {
-// 		where: {
-//       id: {
-//         _eq: movieID
-//       }
-//     }
-//   }
-// }
-// `;
+export const REMOVE_MOVIE = gql `
+mutation watchlist($id: ID!) {
+	deleteMovie(movieID:$id) {
+    id
+		title
+		year
+		description
+		director
+		imdbRating
+		runTime
+		thumbnail
+  }
+}
+`;
 export const GET_WATCHLIST = gql `
   {
     watchlist {

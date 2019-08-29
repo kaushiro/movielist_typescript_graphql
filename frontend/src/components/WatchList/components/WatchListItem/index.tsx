@@ -4,9 +4,9 @@ import { WatchCard, CardInfo, MovieCardStyled, MoviePosterWrapper, PosterOverlay
 
 interface MovieProps {
   movie: any;
-  // onClick: () => Promise<any>;
+  onClick: () => Promise<any>;
 }
-const WatchListItem: React.FC<MovieProps> = ({ movie }) => {
+const WatchListItem: React.FC<MovieProps> = ({ movie, onClick }) => {
   return (
 
     <MovieCardStyled>
@@ -27,7 +27,7 @@ const WatchListItem: React.FC<MovieProps> = ({ movie }) => {
          
         
       </WatchCard>
-      <PosterOverlay>
+      <PosterOverlay onClick={onClick}>
             <p>Remove</p>
           </PosterOverlay>  
       </MoviePosterWrapper>

@@ -40,6 +40,7 @@ dotenv.config();
 
     type Mutation {
       watchMovie(movieID: ID!): [Movie]!
+      deleteMovie(movieID: ID!): [Movie]!
     }
   `;
 
@@ -94,6 +95,36 @@ dotenv.config();
         const newWatchlistMovie = new WatchList();
         newWatchlistMovie.movie = movie;
         await connection.manager.save(newWatchlistMovie);
+
+        const watchList = await connection
+          .getRepository(WatchList)
+          .find({ relations: ["movie"] });
+
+        return watchList.map(watchedMovie => ({
+          id: watchedMovie.movie.id,
+          title: watchedMovie.movie.title,
+          year: watchedMovie.movie.year,
+          description: watchedMovie.movie.description,
+          director: watchedMovie.movie.director,
+          imdbRating: watchedMovie.movie.imdb_rating,
+          runTime: watchedMovie.movie.run_time,
+          thumbnail: watchedMovie.movie.thumbnail
+        }));
+      },
+      deleteMovie: async (parent: any, args: any) => {
+        const movie = await connection
+          .getRepository(Movie)
+          .findOne({ id: args.movieID });
+
+        if (!movie) {
+          throw "No movie with that ID found";
+        }
+
+        const movieInList = await connection
+          .getRepository(WatchList)
+          .findOne({ relations: ["movie"], where: { movie } });
+
+        await connection.manager.delete(WatchList, movieInList);
 
         const watchList = await connection
           .getRepository(WatchList)
